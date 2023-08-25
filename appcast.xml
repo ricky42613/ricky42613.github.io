@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>GAIS注音輸入法</title>
+        <description>First Version: test for auto update</description>
+        <language>en</language>
+        <item>
+            <title>0.3.2</title>
+            <sparkle:releaseNotesLink>
+                https://ricky42613.github.io/
+            </sparkle:releaseNotesLink>
+            <pubDate>Sat, 26 Aug 2023 03:06:00 +0000</pubDate>
+            <enclosure
+                url="https://github.com/ricky42613/ricky42613.github.io/releases/download/v0.3.1-alpha/gaisbpmf-20230821005051.pkg"
+                sparkle:shortVersionString="0.3.2"
+                sparkle:version="2022.05.04"
+                length="116313480"
+                type="application/octet-stream"
+                sparkle:edSignature="Eiu/3sQZ673Yt895TDZ5FH+ANY+4kzxRwhlMKD+mv3AKJBbow+rhJGD1FImKPeXYw1VJU3/f921VbLMxjAixCQ=="
+            />
+            <sparkle:minimumSystemVersion>10.11</sparkle:minimumSystemVersion>
+        </item>
+    </channel>
+</rss>
