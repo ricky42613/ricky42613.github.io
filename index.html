@@ -1,10 +1,505 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>ime update</title>
-  </head>
-  <body>
-    <h1>GAIS IME</h1>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tz-Huan (Ricky) Hsu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg: #0d1117;
+            --bg-deep: #080c12;
+            --surface: #161b22;
+            --surface-raised: #1c2330;
+            --text: #e6dfd0;
+            --text-secondary: #9b927f;
+            --accent: #c8a44e;
+            --accent-glow: #dbb85a;
+            --accent-dim: #8a7030;
+            --border: #2a2f3a;
+            --border-glow: rgba(200,164,78,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Subtle star field */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.4), transparent),
+                radial-gradient(1px 1px at 25% 45%, rgba(255,255,255,0.25), transparent),
+                radial-gradient(1px 1px at 40% 10%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 70% 25%, rgba(255,255,255,0.35), transparent),
+                radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 90% 85%, rgba(255,255,255,0.25), transparent),
+                radial-gradient(1.5px 1.5px at 50% 30%, rgba(200,164,78,0.3), transparent),
+                radial-gradient(1.5px 1.5px at 75% 60%, rgba(200,164,78,0.2), transparent),
+                radial-gradient(1px 1px at 33% 90%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(1px 1px at 60% 50%, rgba(255,255,255,0.15), transparent),
+                radial-gradient(1px 1px at 5% 55%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 95% 15%, rgba(255,255,255,0.2), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body > * { position: relative; z-index: 1; }
+
+        /* Header */
+        header {
+            background: rgba(13,17,23,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px 32px 0;
+        }
+
+        .identity {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .identity h1 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            color: var(--accent);
+        }
+
+        .identity .links {
+            display: flex;
+            gap: 16px;
+            font-size: 0.85rem;
+        }
+
+        .identity .links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .identity .links a:hover { color: var(--accent); }
+
+        /* Tabs */
+        nav {
+            display: flex;
+            gap: 0;
+            margin-top: 12px;
+        }
+
+        nav button {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        nav button:hover { color: var(--text); }
+
+        nav button.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* Main content */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 32px 80px;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* About section */
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-label {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        /* Profile + bio layout */
+        .about-intro {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+
+        .profile-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            flex-shrink: 0;
+        }
+
+        .profile-photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-dim);
+            box-shadow: 0 0 20px rgba(200,164,78,0.12);
+        }
+
+        .profile-slogan {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 0.95rem;
+            font-style: italic;
+            color: var(--accent);
+            text-align: center;
+            line-height: 1.4;
+            letter-spacing: 0.02em;
+            opacity: 0.8;
+            white-space: nowrap;
+        }
+
+        .bio {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.15rem;
+            line-height: 1.85;
+            color: var(--text);
+            max-width: 720px;
+        }
+
+        .bio strong {
+            color: var(--accent-glow);
+            font-weight: 600;
+        }
+
+        .bio a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(200,164,78,0.25);
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .bio a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* Research interests */
+        .interest-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-width: 720px;
+        }
+
+        .interest-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .interest-item::before {
+            content: '';
+            flex-shrink: 0;
+            width: 7px;
+            height: 7px;
+            margin-top: 11px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px rgba(200,164,78,0.45);
+        }
+
+        .interest-item h3 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 2px;
+            letter-spacing: 0.01em;
+        }
+
+        .interest-item p {
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Publications */
+        .pub-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pub-item {
+            padding: 20px 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .pub-item:hover {
+            border-color: var(--border-glow);
+            box-shadow: 0 2px 16px rgba(200,164,78,0.06);
+        }
+
+        .pub-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .pub-badge.long {
+            background: rgba(200,164,78,0.15);
+            color: var(--accent);
+        }
+
+        .pub-badge.short {
+            background: rgba(110,160,120,0.15);
+            color: #8dbf8f;
+        }
+
+        .pub-title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .pub-title a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(230,223,208,0.3);
+            transition: border-color 0.3s;
+        }
+
+        .pub-title a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .pub-authors {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .pub-authors .me {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .pub-venue {
+            font-size: 0.82rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .pub-acceptance {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Placeholder pages */
+        .placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .placeholder h2 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .placeholder p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .header-inner { padding: 16px 16px 0; }
+            main { padding: 24px 16px 60px; }
+            .identity { flex-direction: column; gap: 8px; }
+            .identity h1 { font-size: 1.5rem; }
+            nav button { padding: 8px 14px; font-size: 0.82rem; }
+            .about-intro { flex-direction: column; align-items: center; text-align: center; }
+            .profile-photo { width: 120px; height: 120px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="identity">
+            <h1>Tz-Huan (Ricky) Hsu</h1>
+            <div class="links">
+                <a href="https://github.com/ricky42613" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/tz-huan-hsu-ab3356186/" target="_blank">LinkedIn</a>
+                <a href="mailto:ricky42613@gmail.com">Email</a>
+            </div>
+        </div>
+        <nav>
+            <button class="active" data-tab="about">About Me</button>
+            <!-- <button data-tab="seen">Things I've Seen</button>
+            <button data-tab="share">Things to Share</button> -->
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- About Me -->
+    <div id="about" class="tab-content active">
+        <div class="section">
+            <div class="section-label">About</div>
+            <div class="about-intro">
+                <div class="profile-column">
+                    <img src="profile.jpg" alt="Ricky Hsu" class="profile-photo">
+                    <p class="profile-slogan">"The wand chooses the wizard."</p>
+                </div>
+                <p class="bio">
+                    I am an incoming Ph.D. student at the
+                    David R. Cheriton School of Computer Science, University of Waterloo,
+                    where I will be advised by <strong><a href="https://cs.uwaterloo.ca/~jimmylin/" target="_blank">Prof. Jimmy Lin</a></strong>.
+                    I received my M.S. from National Tsing Hua University under the supervision of <strong><a href="https://www.cs.nthu.edu.tw/~yishin/" target="_blank">Prof. Yi-Shin Chen</a></strong>,
+                    and my B.S. from National Chung Cheng University advised by <strong>Prof. Sun Wu</strong>.
+                    Before starting my doctoral studies, worked as a Machine Learning Engineer at CyCraft with <strong><a href="https://scholar.google.com/citations?user=4r6bWgIAAAAJ" target="_blank">Dr. Cheng-Lin Yang</a></strong>, building transparent and reliable RAG pipelines.
+                    I also worked as a Research Engineer at Yahoo, implementing topic clustering, personalized news recommendation, and multi-document summarization.
+                    My research interests lie at the intersection of
+                    natural language processing and information retrieval, with a focus on
+                    document understanding and retrieval-augmented generation.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-label">Publications</div>
+            <ul class="pub-list">
+                <li class="pub-item">
+                    <span class="pub-badge long">Oral</span>
+                    <div class="pub-title"><a href="https://dl.acm.org/doi/10.1007/978-3-032-21289-4_10" target="_blank">RerAnchor: Anchoring Important Context in Multi-Modal Document Reranking</a></div>
+                    <div class="pub-authors"><span class="me">Tz-Huan Hsu</span>, Sian-Yao Huang, Kuanlun Liao, Che-Yu Lin, and Cheng-Lin Yang</div>
+                    <div class="pub-venue">ECIR 2026 @ Delft, Netherlands</div>
+                    <div class="pub-acceptance">Acceptance rate: 22%</div>
+                </li>
+                <li class="pub-item">
+                    <span class="pub-badge short">Poster</span>
+                    <div class="pub-title"><a href="https://dl.acm.org/doi/10.1007/978-3-032-21300-6_40" target="_blank">Enhancing Attention-based Context Attribution via Token Selection and Think-Twice Mechanism</a></div>
+                    <div class="pub-authors"><span class="me">Tz-Huan Hsu</span>, Sian-Yao Huang, Che-Yu Lin, and Cheng-Lin Yang</div>
+                    <div class="pub-venue">ECIR 2026 @ Delft, Netherlands</div>
+                    <div class="pub-acceptance">Acceptance rate: 34%</div>
+                </li>
+                <li class="pub-item">
+                    <span class="pub-badge long">Oral</span>
+                    <div class="pub-title"><a href="https://dl.acm.org/doi/10.1145/3627673.3679723" target="_blank">PIECE: Protagonist Identification and Event Chronology Extraction for Enhanced Timeline Summarization</a></div>
+                    <div class="pub-authors"><span class="me">Tz-Huan Hsu</span>, Li-Hsuan Chin, Yen-Hao Huang, and Yi-Shin Chen</div>
+                    <div class="pub-venue">CIKM 2024 @ Boise, United States</div>
+                    <div class="pub-acceptance">Acceptance rate: 23%</div>
+                </li>
+                <li class="pub-item">
+                    <span class="pub-badge long">Oral</span>
+                    <div class="pub-title"><a href="https://ieeexplore.ieee.org/document/10229400" target="_blank">LeCAR: Leveraging Context for Enhanced Automotive Specification Retrieval</a></div>
+                    <div class="pub-authors">Kuan-Wei Wu, <span class="me">Tz-Huan Hsu</span>, Yen-Hao Huang, Yi-Shin Chen, Ho-Lung Wang, Bing-Jing Hsieh, and Chi-Hung Hsu</div>
+                    <div class="pub-venue">IEEE IRI 2023 @ Bellevue, United States</div>
+                    <div class="pub-acceptance">Acceptance rate: 29%</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Things I've Seen -->
+    <!-- <div id="seen" class="tab-content">
+        <div class="placeholder">
+            <div class="placeholder-icon">&#x1F30F;</div>
+            <h2>Things I've Seen</h2>
+            <p>Stories and snapshots from the journey — coming soon.</p>
+        </div>
+    </div> -->
+
+    <!-- Things to Share -->
+    <!-- <div id="share" class="tab-content">
+        <div class="placeholder">
+            <div class="placeholder-icon">&#x1F4A1;</div>
+            <h2>Things to Share</h2>
+            <p>Notes, thoughts, and resources — coming soon.</p>
+        </div>
+    </div> -->
+</main>
+
+<script>
+// ─── Tab Switching ──────────────────────────────────────────────
+document.querySelectorAll('nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+});
+</script>
+
+</body>
 </html>
