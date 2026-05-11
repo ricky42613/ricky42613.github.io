@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PI-SERINI pairs BM25 with frontier LLMs to test whether lexical retrieval suffices for deep research in an agentic loop." />
+  <meta property="og:title" content="PI-SERINI: Rethinking the Retrieval Interface for Agentic Search" />
+  <meta property="og:description" content="PI-SERINI shows that a well-configured lexical retriever can be sufficient for effective deep research with strong LLMs." />
+  <meta property="og:type" content="website" />
+  <title>PI-SERINI: Rethinking the Retrieval Interface for Agentic Search</title>
+  <link rel="stylesheet" href="piserini/styles.css" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="PI-SERINI home">
+        <span>PI-SERINI</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
+      <div class="nav-links" id="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#insights">Insights</a>
+        <a href="#citation">Citation</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">Theme</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section-grid">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Deep Research · Lexical Retrieval · Search Agents</p>
+        <h1 class="hero-title"><span class="title-brand">Pi-serini</span>: Rethinking the Retrieval Interface for Agentic Search</h1>
+        <p class="subtitle">
+          Will a lexical retriever suffice as large language models become stronger in an agentic loop?
+        </p>
+        <p class="authors">
+          <a href="#" aria-label="Tz-Huan Hsu profile">Tz-Huan Hsu</a>
+          <span>·</span>
+          <a href="#" aria-label="Jheng-Hong Yang profile">Jheng-Hong Yang</a>
+          <span>·</span>
+          <a href="#" aria-label="Jimmy Lin profile">Jimmy Lin</a>
+        </p>
+        <p class="affiliations">University of Waterloo · Stencilzeit</p>
+        <div class="button-row" aria-label="Project links">
+          <a class="button primary" href="#" data-coming-soon>Paper</a>
+          <a class="button" href="https://github.com/justram/pi-serini">Code</a>
+          <a class="button" href="#citation">BibTeX</a>
+          <a class="button" href="#results">Results</a>
+        </div>
+      </div>
+      <aside class="hero-panel reveal" aria-label="Main result summary">
+        <div class="hero-slideshow" data-hero-slideshow>
+          <div class="hero-slide active" data-hero-slide="0">
+            <div class="panel-header">
+              <span>BrowseComp-Plus</span>
+            </div>
+            <div class="big-metric">
+              <span class="value">83.13%</span>
+              <span class="label">Answer Accuracy</span>
+            </div>
+            <div class="metric-grid compact">
+              <div>
+                <span class="value small">94.70%</span>
+                <span class="label">Surfaced Evidence Recall</span>
+              </div>
+              <div>
+                <span class="value small">3.3×–10×</span>
+                <span class="label">Lower Full-Run Cost</span>
+              </div>
+            </div>
+            <div class="mini-claim">
+              A well-configured BM25, paired with careful tool design, can be competitive with dense-retriever search agents.
+            </div>
+          </div>
+          <div class="hero-slide" data-hero-slide="1" aria-hidden="true">
+            <div class="panel-header">
+              <span>GPT-5 + BM25 comparison</span>
+            </div>
+            <div class="comparison-figure" aria-label="PI-SERINI and Chen et al. comparison under GPT-5 with BM25">
+              <div class="compare-summary">
+                <strong>Same model, same retriever</strong>
+                <span>PI-SERINI saves $305.44 over Chen et al. on BrowseComp-Plus</span>
+              </div>
+              <div class="compare-columns">
+                <div class="compare-system ours">
+                  <span class="system-name">PI-SERINI</span>
+                  <strong>74.58%</strong>
+                  <span>Accuracy</span>
+                </div>
+                <div class="compare-system baseline">
+                  <span class="system-name">Chen et al.</span>
+                  <strong>58.31%</strong>
+                  <span>Accuracy</span>
+                </div>
+              </div>
+              <div class="compare-bars">
+                <div class="compare-row">
+                  <span>Answer accuracy</span>
+                  <div class="bar-pair" aria-hidden="true">
+                    <i class="ours" style="--bar:74.58%"></i>
+                    <i class="baseline" style="--bar:58.31%"></i>
+                  </div>
+                  <strong>+16.27</strong>
+                </div>
+                <div class="compare-row cost-row">
+                  <span>Full-run cost</span>
+                  <div class="bar-pair" aria-hidden="true">
+                    <i class="ours" style="--bar:23.71%"></i>
+                    <i class="baseline" style="--bar:100%"></i>
+                  </div>
+                  <strong>$94.92 (-$305.44)<br>$400.36</strong>
+                </div>
+                <div class="compare-row">
+                  <span>Surfaced evidence</span>
+                  <div class="bar-pair" aria-hidden="true">
+                    <i class="ours" style="--bar:62.66%"></i>
+                    <i class="baseline" style="--bar:61.70%"></i>
+                  </div>
+                  <strong>+0.96</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-controls" aria-label="Hero slide controls">
+            <button class="slide-arrow" type="button" data-hero-slide-step="-1" aria-label="Previous slide">‹</button>
+            <button class="slide-dot active" type="button" data-hero-slide-target="0" aria-label="Show main result" aria-pressed="true"></button>
+            <button class="slide-dot" type="button" data-hero-slide-target="1" aria-label="Show GPT-5 comparison" aria-pressed="false"></button>
+            <button class="slide-arrow" type="button" data-hero-slide-step="1" aria-label="Next slide">›</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="strip reveal" aria-label="Key contributions">
+      <div class="strip-item">
+        <strong>Deeper Ranking Navigation</strong>
+        <span>Three tools help the agent cache rankings, browse deeper results, and read selected documents.</span>
+      </div>
+      <div class="strip-item">
+        <strong>BM25 Revisited</strong>
+        <span>Long-document tuning and deeper cached rankings expose strong lexical retrieval capacity.</span>
+      </div>
+      <div class="strip-item">
+        <strong>Cost-Aware Evaluation</strong>
+        <span>Prefix-cache-friendly interaction reduce expensive evaluation runs.</span>
+      </div>
+    </section>
+
+    <section class="content-section" id="abstract">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Abstract</p>
+        <h2>Will a lexical retriever suffice as LLMs become stronger in an agentic loop?</h2>
+      </div>
+      <div class="text-card reveal">
+        <p>
+          This question naturally arises when building deep research systems. We revisit it by pairing BM25 with frontier LLMs that have strong reasoning and tool-use abilities.
+        </p>
+        <p>
+          To support researchers asking the same question, we introduce PI-SERINI, a search agent equipped with three tools for retrieving, browsing, and reading documents.
+        </p>
+        <p>
+          Our results show that, on BrowseComp-Plus and with strong LLMs, a lexical retriever can be sufficient for effective deep research when it is well-configured and used with sufficient retrieval depth. Specifically, PI-SERINI with <code>gpt-5.5</code> achieves <strong>83.1%</strong> answer accuracy and <strong>94.7%</strong> surfaced evidence recall, outperforming released search agents that use dense retrievers.
+        </p>
+        <p>
+          Ablations further show that a well-configured BM25 improves answer accuracy by <strong>18.0%</strong> and surfaced evidence recall by <strong>11.1%</strong>, while increasing retrieval depth further improves surfaced evidence recall by <strong>25.3%</strong>. Source code is available on <a href="https://github.com/justram/pi-serini">GitHub</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="content-section" id="method">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Method</p>
+        <h2>A deliberately small interface for evidence acquisition.</h2>
+        <p>
+          PI-SERINI isolates the interaction between the LLM agent and the retriever. The retriever surfaces a deep BM25 ranking, while the controller controls caching, pagination, and how evidence is revealed.
+        </p>
+      </div>
+      <div class="pipeline system-arch reveal" aria-label="PI-SERINI system architecture diagram">
+        <div class="arch-node question">
+          <strong>Question</strong>
+          <small>BrowseComp-Plus query</small>
+        </div>
+        <div class="arch-node prompt pi">
+          <strong>System Prompt</strong>
+          <small>Appendix A.1 retrieval workflow</small>
+        </div>
+        <div class="arch-node budget pi">
+          <strong>Time Budget</strong>
+          <small>Steer to answer or block tools</small>
+        </div>
+        <div class="arch-node agent">
+          <strong>LLM Agent</strong>
+          <small><span class="loop-glyph" aria-hidden="true">↻</span> ReAct loop</small>
+        </div>
+        <div class="arch-node answer">
+          <strong>Final Answer</strong>
+          <small>Fixed response format</small>
+        </div>
+        <div class="arch-controller pi">
+          <strong>Retrieval Controller</strong>
+          <small>Main isolation point</small>
+          <div class="arch-subnode">
+            <strong>Tool API</strong>
+            <small><code>search</code> · <code>browse</code> · <code>read</code></small>
+          </div>
+          <div class="arch-subnode">
+            <strong>State Management</strong>
+            <small>Cache · pagination · spill files</small>
+          </div>
+        </div>
+        <div class="arch-node search-engine">
+          <strong>Search Engine</strong>
+          <small>Anserini BM25</small>
+          <small><code>k1 = 25</code>, <code>b = 1</code></small>
+        </div>
+        <p class="arch-caption">Blue components belong to PI-SERINI; the retrieval controller is the main isolation point between the agent and search engine.</p>
+        <span class="arch-arrow question-agent" aria-hidden="true"></span>
+        <span class="arch-arrow prompt-agent" aria-hidden="true"></span>
+        <span class="arch-arrow budget-agent" aria-hidden="true"></span>
+        <span class="arch-arrow agent-answer" aria-hidden="true"></span>
+        <span class="arch-arrow bidir agent-controller" aria-hidden="true"></span>
+        <span class="arch-arrow bidir controller-engine" aria-hidden="true"></span>
+      </div>
+      <div class="tool-grid reveal">
+        <article class="tool-card">
+          <span class="tool-number">01</span>
+          <h3><code>search</code></h3>
+          <p>Issues a raw lexical query, retrieves up to 1000 ranked documents, caches the ranking, and shows only the first few excerpts.</p>
+        </article>
+        <article class="tool-card">
+          <span class="tool-number">02</span>
+          <h3><code>read_search_results</code></h3>
+          <p>Browses a cached ranking by rank offset without launching a new backend query, allowing broader inspection at low context cost.</p>
+        </article>
+        <article class="tool-card">
+          <span class="tool-number">03</span>
+          <h3><code>read_document</code></h3>
+          <p>Reads selected documents through line-based pagination so the agent can inspect relevant text pieces rather than full documents.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section results-section" id="results">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Results</p>
+        <h2>BM25 is not the bottleneck when the agent can use it well.</h2>
+        <p>
+          PI-SERINI improves answer quality, evidence recall, and cost efficiency across multiple LLM families. The main comparison below focuses on the BrowseComp-Plus full benchmark.
+        </p>
+      </div>
+
+      <div class="metric-grid reveal">
+        <div class="metric-card">
+          <span class="value">83.13%</span>
+          <span class="label">Best accuracy with GPT-5.5 + BM25</span>
+        </div>
+        <div class="metric-card">
+          <span class="value">94.70%</span>
+          <span class="label">Evidence surfaced recall</span>
+        </div>
+        <div class="metric-card">
+          <span class="value">$291.55</span>
+          <span class="label">Full run with GPT-5.5</span>
+        </div>
+        <div class="metric-card">
+          <span class="value">$28.92</span>
+          <span class="label">DeepSeek flash cost-performance run</span>
+        </div>
+      </div>
+
+      <div class="figure-card reveal">
+        <div class="figure-header">
+          <div>
+            <h3>Accuracy–Cost Trade-off</h3>
+            <p>Hover, focus, or filter systems to inspect the paper’s reported benchmark results.</p>
+          </div>
+          <div class="legend" id="scatter-legend" aria-label="Scatter plot legend"></div>
+        </div>
+        <div class="chart-controls" aria-label="Chart controls">
+          <button class="tab active" type="button" data-chart-filter="all">All systems</button>
+          <button class="tab" type="button" data-chart-filter="PI-SERINI (DeepSeek)">DeepSeek</button>
+          <button class="tab" type="button" data-chart-filter="PI-SERINI (OpenAI)">OpenAI</button>
+          <button class="tab" type="button" data-chart-filter="PI-SERINI (Anthropic)">Anthropic</button>
+          <button class="tab" type="button" data-chart-filter="Prior work">Prior work</button>
+          <button class="tab" type="button" data-chart-filter="Coding agent reference">Coding ref.</button>
+        </div>
+        <div class="chart-wrap">
+          <svg id="cost-accuracy-chart" role="img" aria-label="Accuracy versus cost chart"></svg>
+          <div class="chart-tooltip" id="chart-tooltip" role="status" aria-live="polite"></div>
+        </div>
+        <div class="chart-readout" id="chart-readout">
+          PI GPT-5.5
+          <span>83.13% accuracy at $291.55 with BM25. Best accuracy in this comparison.</span>
+        </div>
+      </div>
+
+      <div class="table-card reveal">
+        <div class="table-toolbar">
+          <h3>Full Results</h3>
+          <div class="tabs" role="tablist" aria-label="Result table filter">
+            <button class="tab active" type="button" data-filter="all">All</button>
+            <button class="tab" type="button" data-filter="pi">PI-SERINI</button>
+            <button class="tab" type="button" data-filter="baseline">Baselines</button>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th rowspan="2" data-sort-index="0" aria-sort="none">Source</th>
+                <th rowspan="2" data-sort-index="1" aria-sort="none">LLM</th>
+                <th rowspan="2" data-sort-index="2" aria-sort="none">Retriever</th>
+                <th colspan="3">Answer Quality</th>
+                <th colspan="2">Surfaced Recall</th>
+                <th colspan="2">Previewed Recall</th>
+                <th colspan="2">Behavior Recall</th>
+              </tr>
+              <tr>
+                <th data-sort-index="3" aria-sort="none">Acc.</th>
+                <th data-sort-index="4" aria-sort="none">Calib.</th>
+                <th data-sort-index="5" aria-sort="none">Cost</th>
+                <th data-sort-index="6" aria-sort="none">Evi.</th>
+                <th data-sort-index="7" aria-sort="none">Gold</th>
+                <th data-sort-index="8" aria-sort="none">Evi.</th>
+                <th data-sort-index="9" aria-sort="none">Gold</th>
+                <th data-sort-index="10" aria-sort="none">Evi.</th>
+                <th data-sort-index="11" aria-sort="none">Gold</th>
+              </tr>
+            </thead>
+            <tbody id="results-table">
+              <tr data-kind="baseline">
+                <td>Chen et al. (2025)</td>
+                <td>o3</td>
+                <td>bm25</td>
+                <td>50.84</td><td>39.09</td><td>$836.35</td>
+                <td>56.64</td><td>61.69</td><td>-</td><td>-</td><td>-</td><td>-</td>
+              </tr>
+              <tr data-kind="baseline">
+                <td>Chen et al. (2025)</td>
+                <td>o3</td>
+                <td>qwen3-embed-8b</td>
+                <td>66.27</td><td>32.73</td><td>$740.79</td>
+                <td>73.24</td><td>76.30</td><td>-</td><td>-</td><td>-</td><td>-</td>
+              </tr>
+              <tr data-kind="baseline">
+                <td>Chen et al. (2025)</td>
+                <td>gpt-5</td>
+                <td>bm25</td>
+                <td>58.31</td><td>13.53</td><td>$400.36</td>
+                <td>61.70</td><td>66.49</td><td>-</td><td>-</td><td>-</td><td>-</td>
+              </tr>
+              <tr data-kind="baseline">
+                <td>Chen et al. (2025)</td>
+                <td>gpt-5</td>
+                <td>qwen3-embed-8b</td>
+                <td>73.01</td><td>9.72</td><td>$360.71</td>
+                <td>78.98</td><td>81.34</td><td>-</td><td>-</td><td>-</td><td>-</td>
+              </tr>
+              <tr data-kind="baseline">
+                <td>Meng et al. (2026)</td>
+                <td>gpt-5.2</td>
+                <td>qwen3-embed-8b</td>
+                <td>45.10</td><td>-</td><td>$1k-$2k</td>
+                <td>-</td><td>74.70</td><td>-</td><td>-</td><td>-</td><td>-</td>
+              </tr>
+              <tr data-kind="baseline">
+                <td>Chen et al. (2026)</td>
+                <td>Tongyi-DR</td>
+                <td>AgentIR-4B</td>
+                <td>68.07</td><td>-</td><td>-</td>
+                <td>79.21</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+              </tr>
+              <tr data-kind="pi">
+                <td>PI-SERINI</td>
+                <td>claude-haiku-4.5</td>
+                <td>bm25</td>
+                <td>54.82</td><td>17.33</td><td>$193.50</td>
+                <td>94.06</td><td>95.35</td><td>58.19</td><td>60.08</td><td>40.85</td><td>46.31</td>
+              </tr>
+              <tr data-kind="pi">
+                <td>PI-SERINI</td>
+                <td>claude-opus-4.7</td>
+                <td>bm25</td>
+                <td>69.76</td><td>10.17</td><td>$246.57</td>
+                <td>81.19</td><td>86.78</td><td>43.27</td><td>52.46</td><td>30.44</td><td>43.04</td>
+              </tr>
+              <tr data-kind="pi">
+                <td>PI-SERINI</td>
+                <td>gpt-5</td>
+                <td>bm25</td>
+                <td>74.58</td><td>7.19</td><td>$94.92</td>
+                <td>90.35</td><td>93.82</td><td>62.66</td><td>70.02</td><td>45.74</td><td>56.16</td>
+              </tr>
+              <tr data-kind="pi">
+                <td>PI-SERINI</td>
+                <td>gpt-5.2</td>
+                <td>bm25</td>
+                <td>70.48</td><td>6.24</td><td>$122.22</td>
+                <td>89.89</td><td>92.83</td><td>60.54</td><td>67.26</td><td>44.84</td><td>54.48</td>
+              </tr>
+              <tr data-kind="pi">
+                <td>PI-SERINI</td>
+                <td>gpt-5.4</td>
+                <td>bm25</td>
+                <td>73.25</td><td>9.20</td><td>$175.46</td>
+                <td>93.78</td><td>95.32</td><td>70.33</td><td>66.86</td><td>51.79</td><td>58.07</td>
+              </tr>
+              <tr data-kind="pi">
+                <td>PI-SERINI</td>
+                <td>gpt-5.5</td>
+                <td>bm25</td>
+                <td>83.13</td><td>15.73</td><td>$291.55</td>
+                <td>94.70</td><td>94.43</td><td>73.55</td><td>72.87</td><td>58.87</td><td>56.12</td>
+              </tr>
+              <tr data-kind="pi">
+                <td>PI-SERINI</td>
+                <td>deepseek-v4-flash</td>
+                <td>bm25</td>
+                <td>68.07</td><td>15.52</td><td>$28.92</td>
+                <td>94.48</td><td>95.74</td><td>67.87</td><td>69.92</td><td>55.17</td><td>60.56</td>
+              </tr>
+              <tr data-kind="pi">
+                <td>PI-SERINI</td>
+                <td>deepseek-v4-pro</td>
+                <td>bm25</td>
+                <td>71.43</td><td>6.95</td><td>$55.08</td>
+                <td>91.32</td><td>92.46</td><td>59.85</td><td>62.97</td><td>45.41</td><td>50.56</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="insights">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Key Findings</p>
+        <h2>The bottleneck shifts from retrieval to evidence navigation.</h2>
+      </div>
+      <div class="insight-grid reveal">
+        <article class="insight-card">
+          <h3>Lexical retrieval is stronger than prior baselines suggest.</h3>
+          <p>With tuned BM25 parameters and deeper retrieval, PI-SERINI surfaces high-recall candidate evidence before the agent begins deeper inspection.</p>
+        </article>
+        <article class="insight-card">
+          <h3>Tool granularity enables deeper retrieval.</h3>
+          <p>With <code>search</code>, <code>read_search_results</code>, and <code>read_document</code>, PI-SERINI caches a retrieved ranking, explores deeper retrieval results, and selectively decides which evidence enters its context window.</p>
+        </article>
+        <article class="insight-card">
+          <h3>Navigation remains difficult.</h3>
+          <p>Surfaced recall is much higher than previewed and behavior recall, suggesting that future gains may come from better evidence navigation rather than only better retrievers.</p>
+        </article>
+        <article class="insight-card">
+          <h3>Evaluation cost can be reduced.</h3>
+          <p>Time-budget steering and cache-friendly interaction make repeated full-benchmark evaluations more practical for Deep Research systems.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section" id="citation">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Citation</p>
+        <h2>Cite PI-SERINI</h2>
+        <p>Update the venue field after publication if needed.</p>
+      </div>
+      <div class="bib-card reveal">
+        <pre id="bibtex">Coming Soon</pre>
+        <button class="button copy-button" type="button" data-copy="#bibtex">Copy BibTeX</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>PI-SERINI · A minimal BM25-based search agent for Deep Research.</p>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="piserini/script.js"></script>
+</body>
+</html>
