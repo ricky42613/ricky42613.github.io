@@ -45,10 +45,23 @@
         </p>
         <p class="affiliations">University of Waterloo · Stencilzeit</p>
         <div class="button-row" aria-label="Project links">
-          <a class="button primary" href="#" data-coming-soon>Paper</a>
+          <a class="button primary" href="https://arxiv.org/abs/2605.10848">Paper</a>
           <a class="button" href="https://github.com/justram/pi-serini">Code</a>
           <a class="button" href="#citation">BibTeX</a>
           <a class="button" href="#results">Results</a>
+          <div class="data-menu">
+            <button class="button" type="button" data-data-menu-trigger aria-expanded="false" aria-controls="data-menu-panel">Data</button>
+            <div class="data-menu-panel" id="data-menu-panel" data-data-menu-panel>
+              <a href="https://huggingface.co/datasets/ricky42613/piserini_bcp_deepseekv4_flash">PiSerini w/ DeepSeek V4 Flash</a>
+              <a href="https://huggingface.co/datasets/ricky42613/piserini_bcp_deepseekv4_pro">PiSerini w/ DeepSeek V4 Pro</a>
+              <a href="https://huggingface.co/datasets/ricky42613/piserini_bcp_gpt5">PiSerini w/ GPT-5</a>
+              <a href="https://huggingface.co/datasets/ricky42613/piserini_bcp_gpt52">PiSerini w/ GPT-5.2</a>
+              <a href="https://huggingface.co/datasets/ricky42613/piserini_bcp_gpt54">PiSerini w/ GPT-5.4</a>
+              <a href="https://huggingface.co/datasets/ricky42613/piserini_bcp_gpt55">PiSerini w/ GPT-5.5</a>
+              <a href="https://huggingface.co/datasets/ricky42613/piserini_bcp_opus47">PiSerini w/ Claude Opus 4.7</a>
+              <a href="https://huggingface.co/datasets/ricky42613/piserini_bcp_haiku">PiSerini w/ Claude 3.5 Haiku</a>
+            </div>
+          </div>
         </div>
       </div>
       <aside class="hero-panel reveal" aria-label="Main result summary">
@@ -464,10 +477,18 @@
       <div class="section-heading reveal">
         <p class="eyebrow">Citation</p>
         <h2>Cite PI-SERINI</h2>
-        <p>Update the venue field after publication if needed.</p>
+        <p>Use the arXiv citation below.</p>
       </div>
       <div class="bib-card reveal">
-        <pre id="bibtex">Coming Soon</pre>
+        <pre id="bibtex">@misc{hsu2026rethinkingagenticsearchpiserini,
+  title         = {Rethinking Agentic Search with Pi-Serini: Is Lexical Retrieval Sufficient?},
+  author        = {Tz-Huan Hsu and Jheng-Hong Yang and Jimmy Lin},
+  year          = {2026},
+  eprint        = {2605.10848},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.IR},
+  url           = {https://arxiv.org/abs/2605.10848}
+}</pre>
         <button class="button copy-button" type="button" data-copy="#bibtex">Copy BibTeX</button>
       </div>
     </section>

@@ -75,6 +75,36 @@ document.querySelectorAll('[data-coming-soon]').forEach((link) => {
   });
 });
 
+const dataMenuTrigger = document.querySelector('[data-data-menu-trigger]');
+const dataMenu = dataMenuTrigger?.closest('.data-menu');
+
+function closeDataMenu() {
+  dataMenu?.classList.remove('open');
+  dataMenuTrigger?.setAttribute('aria-expanded', 'false');
+}
+
+dataMenuTrigger?.addEventListener('click', (event) => {
+  event.stopPropagation();
+  const isOpen = dataMenu?.classList.toggle('open');
+  dataMenuTrigger.setAttribute('aria-expanded', String(Boolean(isOpen)));
+});
+
+dataMenu?.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', closeDataMenu);
+});
+
+document.addEventListener('click', (event) => {
+  if (!dataMenu?.contains(event.target)) {
+    closeDataMenu();
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeDataMenu();
+  }
+});
+
 document.querySelectorAll('[data-copy]').forEach((button) => {
   button.addEventListener('click', async () => {
     const target = document.querySelector(button.dataset.copy);
